@@ -37,6 +37,7 @@ class EmployeeController extends Controller
     {
       $users = User::get();
       $reviews=Review::where('reviewer_id', Auth::user()->id )->get();
+      // dd($reviews);
       return view('emp.Allevaluate', compact('users','reviews'));
     }
     public function showChangePw()

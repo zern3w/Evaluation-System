@@ -1,52 +1,40 @@
 @extends('layouts.app') @section('content')
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">EvaluateAll</div>
-                    <div class="panel-body">
-                      <table class="table  table-hover table-striped ">
-                        <tr>
-                            <th >No</th>
-                              <th > Name </th>
-                              <th > Photo </th>
-                              <th > State </th>
-                        </tr>
-                              <?php $i = 1; ?>
-                            @foreach($users as $user)
-                              @if($user->id!=Auth::user()->id)
-                              <tr>
-                                <td>{{$i}}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->photo }}</td>
-                                <td>
-                                    <?php $count=0; $max = count($reviews); ?>
-                                    @forelse($reviews as $review)
-                                      <?php $count++; ?>
-                                      @if($review->user_id==$user->id)
-                                        evaluated
-                                        <?php $count=$count-1; ?>
-                                      @endif
-                                      @if($count==$max)
-                                        <a href="{{ url('evaluate/'. $user->id) }}">
-                                          evaluate
-                                        </a>
-                                      @endif
-                                    @empty
-                                    <a href="{{ url('evaluate/'. $user->id) }}">
-                                      evaluate
-                                    </a>
-                                    @endforelse
-                                </td>
-                              </tr>
-                              <?php $i++; ?>
-                              @endif
-                            @endforeach
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading">EvaluateAll</div>
+        <div class="panel-body">
 
-                      </table>
-                    </div>
+          @if($users->isEmpty())
+          <div class="alert alert-warning">
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            <em> No data in the database.</em>
+          </div>
+          @endif
+
+          <div class="row">
+            @foreach($users as $user)
+
+            <div class="col-md-4">
+              <div class="thumbnail" style="border-radius: 10px;">
+                <img src="/img/users/{{ $user->photo }}" class="img img-rounded">
+                <div class="caption text-center">
+                  <h4><b>{{$user->name}}</b></h4>
+
+
+                  <a href="{{ url('evaluate/'. $user->id) }}" class="btn btn-success form-control"
+                    style="margin-right: 10px">
+                    <i class="glyphicon glyphicon-edit"></i> Evaluate</a>
+
+                </div>
               </div>
+            </div>
+            @endforeach
+          </div>
         </div>
+      </div>
     </div>
   </div>
-    @endsection
+</div>
+@endsection
