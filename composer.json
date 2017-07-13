@@ -6,9 +6,10 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
+        "consoletvs/charts": "4.*",
+        "intervention/image": "dev-master",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
-        "intervention/image": "dev-master",
         "uxweb/sweet-alert": "~1.4"
     },
     "require-dev": {

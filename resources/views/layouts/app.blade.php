@@ -8,9 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Evaluation') }}</title>
 
     <!-- Styles -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
     integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -26,17 +27,7 @@
         ]) !!};
     </script>
 </head>
-<style>
-.wrapper > ul#results li {
-  margin-bottom: 2px;
-  background: #f9f9f9;
-  padding: 10px;
-  list-style: none;
-}
-.ajax-loading{
-  text-align: center;
-}
-</style>
+
 <body>
   <!-- @include('alert') -->
     <div id="app">
@@ -53,8 +44,8 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
+                    <a class="navbar-brand" href="{{ url('/login') }}">
+                        {{ config('app.name', 'Evaluation') }}
                     </a>
                 </div>
 
@@ -72,14 +63,16 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                         <li><a href=" {{ url('/profile') }} ">Profile</a></li>
+                        <li><a href=" {{ url('/report') }} ">Report</a></li>
                         <li><a href=" {{ url('/evaluate') }} ">Evaluate</a></li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="position:relative; padding-left:50px;">
-                                  <img src="/uploads/avatars/{{ Auth::user()->photo }}" class="img-navbar">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                  <img src="/img/uploads/{{ Auth::user()->photo }}" class="img-navbar">
+                                    {{ Auth::user()->username }} <span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu" role="menu">
+                                  <li><a href=" {{ url('/changeusername') }} ">Change username</a></li>
                                 <li><a href=" {{ url('/changepw') }} ">Change password</a></li>
                                     <li>
                                         <a href="{{ route('logout') }}"

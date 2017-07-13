@@ -1,3 +1,18 @@
+.wrapper > ul#results li {
+  margin-bottom: 2px;
+  background: #f9f9f9;
+  padding: 10px;
+  list-style: none;
+}
+.ajax-loading{
+  text-align: center;
+}
+
+.profile{
+	height: 250px;
+	width: auto;
+}
+
 .img-rounded{
 	border-radius: 20px;
 }
@@ -39,11 +54,13 @@
             filter: none;
 }
 .eval-scale{
+	margin-top: 20px;
     cursor:pointer;
     background-size:contain;
     background-repeat:no-repeat;
     display:inline-block;
-    width:132px;height:100px;
+    width:90px;
+		height:100px;
     -webkit-transition: all 100ms ease-in;
        -moz-transition: all 100ms ease-in;
             transition: all 100ms ease-in;

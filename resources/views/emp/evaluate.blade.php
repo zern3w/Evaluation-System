@@ -10,38 +10,41 @@
                     <input type="hidden" name="userId" value="{{$user->id}}" >
                     <input type="hidden" name="reviewerId" value="{{Auth::user()->id}}" >
                     <div class="panel-body">
-                        </br>
                         <center>
-                          <img src="/uploads/avatars/{{ $user->photo}}" class="img-avatar" id="showphoto">
+                          <img src="/img/uploads/{{ $user->photo}}" class="profile" id="showphoto">
+                        <h4>Employee name: {{ $user->name }}</h4>
                         </center>
                         <hr>
-                           <h4>Employee name: {{ $user->name }}</h4>
+
                         <input type="hidden" name="reviewerId" value="{{ Auth::user()->id }}">
                         <h3>How I like them:   </h3>
                            <div class="row">
+                             <center>
                                    <div class="eval-selector">
-                                     <input id="five" type="radio" name="scale" value="five" />
+                                     <input id="five" type="radio" name="rating" value="5" />
                                      <label class="eval-scale level-five" for="five"></label>
 
-                                     <input id="four" type="radio" name="scale" value="four" />
+                                     <input id="four" type="radio" name="rating" value="4" />
                                      <label class="eval-scale level-four"for="four"></label>
 
-                                     <input id="three" type="radio" name="scale" value="three" checked="checked" />
+                                     <input id="three" type="radio" name="rating" value="3" checked="checked" />
                                      <label class="eval-scale level-three"for="three"></label>
 
-                                     <input id="two" type="radio" name="scale" value="two" />
+                                     <input id="two" type="radio" name="rating" value="2" />
                                      <label class="eval-scale level-two"for="two"></label>
 
-                                     <input id="one" type="radio" name="scale" value="one" />
+                                     <input id="one" type="radio" name="rating" value="1" />
                                      <label class="eval-scale level-one"for="one"></label>
                                    </div>
+                                 </center>
     </div>
+    <h3>Comment (optional)</h3>
+    <textarea class="pull-right form-control" name="comment" placeholder="Enter comment..."></textarea>
+    </br>
+    <hr>
+    <button type="submit" class="btn btn-primary form-control">Submit</button>
                             </div>
-                        <h3>Comment</h3>
-                        <textarea class="pull-right form-control" name="comment" placeholder="Enter comment..."></textarea>
-                        </br>
-                        <hr>
-                        <button type="submit" class="btn btn-primary form-control">Submit</button>
+
                     </div>
             </div>
         </div>

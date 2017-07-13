@@ -23,39 +23,44 @@ public function run()
 {
 DB::table('users')->delete();
 DB::table('users')->insert([
-'email' => 'user1@gmail.com',
-'password' => Hash::make('123456'),
-'name' => 'user1',
-'type' => '1',
-'created_at' => date('Y-m-d H:i:s')
+    'email' => 'user1@gmail.com',
+    'password' => Hash::make('123456'),
+    'name' => 'Emma J.',
+    'username' => 'test1',
+    'photo' => '1.png',
+    'created_at' => date('Y-m-d H:i:s')
 ]);
 DB::table('users')->insert([
-'email' => 'user2@gmail.com',
-'password' => Hash::make('123456'),
-'name' => 'user2',
-'type' => '1',
-'created_at' => date('Y-m-d H:i:s')
+    'email' => 'user2@gmail.com',
+    'password' => Hash::make('123456'),
+    'name' => 'Jackson M.',
+    'username' => 'test2',
+    'photo' => '2.png',
+    'created_at' => date('Y-m-d H:i:s')
 ]);
 DB::table('users')->insert([
-'email' => 'user3@gmail.com',
-'password' => Hash::make('123456'),
-'name' => 'user3',
-'type' => '1',
-'created_at' => date('Y-m-d H:i:s')
+    'email' => 'user3@gmail.com',
+    'password' => Hash::make('123456'),
+    'name' => 'Olivia K.',
+    'username' => 'test3',
+    'photo' => '3.png',
+    'created_at' => date('Y-m-d H:i:s')
 ]);
 DB::table('users')->insert([
-'email' => 'user4@gmail.com',
-'password' => Hash::make('123456'),
-'name' => 'user4',
-'type' => '1',
-'created_at' => date('Y-m-d H:i:s')
+    'email' => 'user4@gmail.com',
+    'password' => Hash::make('123456'),
+    'name' => 'Lucas G.',
+    'username' => 'test4',
+    'photo' => '4.png',
+    'created_at' => date('Y-m-d H:i:s')
 ]);
 DB::table('users')->insert([
-'email' => 'user5@gmail.com',
-'password' => Hash::make('123456'),
-'name' => 'user5',
-'type' => '1',
-'created_at' => date('Y-m-d H:i:s')
+    'email' => 'user5@gmail.com',
+    'password' => Hash::make('123456'),
+    'name' => 'Steve J.',
+    'username' => 'test5',
+    'photo' => '5.png',
+    'created_at' => date('Y-m-d H:i:s')
 ]);
 }
 }
