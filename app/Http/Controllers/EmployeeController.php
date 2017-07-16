@@ -26,16 +26,17 @@ class EmployeeController extends Controller
         return view('emp.profile', compact('age'));
     }
 
-    public function showReport(Request $request){
-      $count = Review::where('user_id', Auth::user()->id)->pluck('rating')->count();
-      $avg = Review::where('user_id', Auth::user()->id)->pluck('rating')->avg();
-      $five = Review::where('user_id', Auth::user()->id)->where('rating', 5)->count();
-      $four = Review::where('user_id', Auth::user()->id)->where('rating', 4)->count();
-      $three = Review::where('user_id', Auth::user()->id)->where('rating', 3)->count();
-      $two = Review::where('user_id', Auth::user()->id)->where('rating', 2)->count();
-      $one = Review::where('user_id', Auth::user()->id)->where('rating', 1)->count();
+    public function showReport(Request $request)
+    {
+        $count = Review::where('user_id', Auth::user()->id)->pluck('rating')->count();
+        $avg = Review::where('user_id', Auth::user()->id)->pluck('rating')->avg();
+        $five = Review::where('user_id', Auth::user()->id)->where('rating', 5)->count();
+        $four = Review::where('user_id', Auth::user()->id)->where('rating', 4)->count();
+        $three = Review::where('user_id', Auth::user()->id)->where('rating', 3)->count();
+        $two = Review::where('user_id', Auth::user()->id)->where('rating', 2)->count();
+        $one = Review::where('user_id', Auth::user()->id)->where('rating', 1)->count();
 
-      $chart = Charts::multi('bar', 'material')
+        $chart = Charts::multi('bar', 'material')
             // Setup the chart settings
             ->title("My Chart")
             // A dimension of 0 means it will take 100% of the space
@@ -51,43 +52,55 @@ class EmployeeController extends Controller
             // Setup what the values mean
             ->labels(['Very good (5)', 'Good (4)', 'Okay (3)', 'Poor (2)', 'Very poor (1)']);
 
-            $reviews = Review::where('user_id', Auth::user()->id )->where('comment', '!=', '')->paginate(2);
+        $reviews = Review::where('user_id', Auth::user()->id)->where('comment', '!=', '')->paginate(2);
             // dd($reviews);
             $html='';
-            $i = 1;
-            foreach ($reviews as $review) {
-                $html.='<li>'.$i.' <strong>'.$review->comment.'</strong> </li>';
-                $i++;
-            }
-            if ($request->ajax()) {
-                return $html;
-            }
+        foreach ($reviews as $review) {
+            $html.='<li> <strong>'.$review->comment.'</strong> </li>';
+        }
+        if ($request->ajax()) {
+            return $html;
+        }
 
-      return view('emp.report', compact('count', 'avg', 'chart', 'reviews'));
+        return view('emp.report', compact('count', 'avg', 'chart', 'reviews'));
     }
 
     public function showEvaluate($id)
     {
-      $isDuplicated = (bool)Review::where('reviewer_id', Auth::user()->id)->where('user_id', $id)->first();
-      if ($isDuplicated){
-        Alert::info('Your review has been already exist!', 'Information');
-        return redirect('/evaluate');
-      } else {
-        $user = User::find($id);
-        return view('emp.evaluate', compact('user'));
-      }
+        $hasReview  = (bool)Review::where('reviewer_id', Auth::user()->id)->where('user_id', $id)->first();
+        if ($hasReview) {
+            $review = Review::where('reviewer_id', Auth::user()->id)->where('user_id', $id)->first();
+            $day    = $review->dayago;
+            $after  = 30;
+            // dd($day);
+
+            if ($day > $after-1) {
+              $user = User::find($id);
+              return view('emp.evaluate', compact('user'));
+            } else {
+              $dayago = $day - $after;
+              $dayago = $dayago <= 0 ? -$dayago : $dayago ;
+
+              Alert::info("You can give the feedback again after {$dayago} days", 'Information')->persistent('Close');
+              return redirect('/evaluate');
+            }
+
+        } else {
+            $user = User::find($id);
+            return view('emp.evaluate', compact('user'));
+        }
     }
     public function showEvaluateAll()
     {
-      $users = User::where('id', '!=', Auth::user()->id)->get();
-      $reviews = Review::where('reviewer_id', Auth::user()->id )->get();
+        $users   = User  ::where('id', '!=', Auth   ::user()->id)->get();
+        $reviews = Review::where('reviewer_id', Auth::user()->id)->get();
 
-      return view('emp.allevaluate', compact('users','reviews'));
+        return view('emp.allevaluate', compact('users', 'reviews'));
     }
 
     public function showChangeUsername()
     {
-      return view('emp.changeusername');
+        return view('emp.changeusername');
     }
 
     public function showChangePw()
@@ -98,7 +111,8 @@ class EmployeeController extends Controller
     public function evaluate(Request $request)
     {
         // dd($request->all());
-        $review              = new Review();new Review();
+        $review              = new Review();
+        new Review();
         $review->user_id     = $request->userId;
         $review->reviewer_id = $request->reviewerId;
         $review->rating      = $request->rating;
@@ -119,7 +133,7 @@ class EmployeeController extends Controller
             Alert::success('Your password has been updated!', 'Successfully!');
             return redirect('/profile');
         } else {
-            Alert::error('The specified password do not match!', 'Oops!');
+            Alert::error('You entered an incorrect password!', 'Oops!');
             return redirect('/changeusername');
         }
     }
@@ -138,7 +152,7 @@ class EmployeeController extends Controller
             Alert::success('Your password has been updated!', 'Successfully!');
             return redirect('/profile');
         } else {
-            Alert::error('The specified password do not match!', 'Oops!');
+            Alert::error('You entered an incorrect password!', 'Oops!');
             return redirect('/changepw');
         }
     }
@@ -164,15 +178,16 @@ class EmployeeController extends Controller
             $user->save();
             Alert::success('Your photo has been updated!', 'Successfully!');
         }
-        return view('emp.profile');
+        return $this->showProfile();
     }
 
-        function age(DateTime $born, DateTime $reference = null)
+    public function age(DateTime $born, DateTime $reference = null)
     {
         $reference = $reference ?: new DateTime;
 
-        if ($born > $reference)
+        if ($born > $reference) {
             throw new \InvalidArgumentException('Provided birthday cannot be in future compared to the reference date.');
+        }
 
         $diff = $reference->diff($born);
 
@@ -185,5 +200,4 @@ class EmployeeController extends Controller
         // trim redundant ',' or 'and' parts
         return ($s = trim(trim($age, ', '), ' and ')) ? $s.' old' : 'newborn';
     }
-
 }

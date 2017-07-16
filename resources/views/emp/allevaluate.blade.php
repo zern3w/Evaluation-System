@@ -23,11 +23,11 @@
                 <div class="caption text-center">
                   <h4><b>{{$user->name}}</b></h4>
 
-@foreach($reviews as $review)
+<!-- @foreach($reviews as $review)
   @if($user->id == $review->user_id)
     You've already evaluated</a>
   @endif
-@endforeach
+@endforeach -->
 
 <a href="{{ url('evaluate/'. $user->id) }}" class="btn btn-success form-control"
   style="margin-right: 10px">
