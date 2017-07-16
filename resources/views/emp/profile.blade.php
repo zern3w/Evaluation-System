@@ -36,7 +36,7 @@
                        <h4>{{ Auth::user()->username }}</h4>
                        <h4>{{ Auth::user()->name }}</h4>
                        <h4>{{ Auth::user()->email }}</h4>
-                       <h4></br>{{ Auth::user()->created_at->age }} years old</h4>
+                       <h4></br>{{ $age }} </h4>
                     </div>
 
                   </div>

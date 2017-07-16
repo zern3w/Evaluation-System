@@ -13,13 +13,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input as input;
 use App\Http\Controllers\Controller;
 use Charts;
+use Carbon\Carbon;
 use Redirect;
+use Datetime;
 
 class EmployeeController extends Controller
 {
     public function showProfile()
     {
-        return view('emp.profile');
+        $born = Auth::user()->created_at;
+        $age = $this->age($born);
+        return view('emp.profile', compact('age'));
     }
 
     public function showReport(Request $request){
@@ -50,8 +54,10 @@ class EmployeeController extends Controller
             $reviews = Review::where('user_id', Auth::user()->id )->where('comment', '!=', '')->paginate(2);
             // dd($reviews);
             $html='';
+            $i = 1;
             foreach ($reviews as $review) {
-                $html.='<li>'.$review->id.' <strong>'.$review->comment.'</strong> </li>';
+                $html.='<li>'.$i.' <strong>'.$review->comment.'</strong> </li>';
+                $i++;
             }
             if ($request->ajax()) {
                 return $html;
@@ -159,6 +165,25 @@ class EmployeeController extends Controller
             Alert::success('Your photo has been updated!', 'Successfully!');
         }
         return view('emp.profile');
+    }
+
+        function age(DateTime $born, DateTime $reference = null)
+    {
+        $reference = $reference ?: new DateTime;
+
+        if ($born > $reference)
+            throw new \InvalidArgumentException('Provided birthday cannot be in future compared to the reference date.');
+
+        $diff = $reference->diff($born);
+
+        // Not very readable, but all it does is joining age
+        // parts using either ',' or 'and' appropriately
+        $age = ($d = $diff->d) ? ' and '.$d.' '.str_plural('day', $d) : '';
+        $age = ($m = $diff->m) ? ($age ? ', ' : ' and ').$m.' '.str_plural('month', $m).$age : $age;
+        $age = ($y = $diff->y) ? $y.' '.str_plural('year', $y).$age  : $age;
+
+        // trim redundant ',' or 'and' parts
+        return ($s = trim(trim($age, ', '), ' and ')) ? $s.' old' : 'newborn';
     }
 
 }

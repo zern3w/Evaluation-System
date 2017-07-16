@@ -26,6 +26,12 @@
 	border-radius:50%;
 }
 
+.e404{
+  margin: auto;
+	height: 500px;
+	width: auto;
+}
+
 .level-one{background-image: url("/img/1.png");}
 .level-two{background-image:url("/img/2.png");}
 .level-three{background-image:url("/img/3.png");}

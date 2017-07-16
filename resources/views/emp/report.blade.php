@@ -5,9 +5,9 @@
       <div class="panel panel-default">
         <div class="panel-heading">Report</div>
         {!! Charts::assets() !!}
-        <div class="row" style="margin-left: 10px; text-align: left;">
+        <div class="row" style="margin-left: 10px;">
           <center>
-            <img src="/img/uploads/{{ Auth::user()->photo }}" class="profile" id="showphoto">
+            <img src="/img/uploads/{{ Auth::user()->photo }}" class="profile" style="margin-top: 20px;" id="showphoto">
           </center>
           <div class="panel-body text-center">
             <h2>Name: {{ Auth::user()->name }}</br></h2>
@@ -26,8 +26,13 @@
 
             @if ($count != 0)
             <center>
+              @if ($count > 1)
             <h4><b>Total is</b> {{ $count }} peoples</h4>
-            <h5><b>My score is</b> {{ $avg }}</h5>
+            @elseif ($count == 1 )
+            <h4><b>Total is</b> {{ $count }} people</h4>
+            @endif
+
+            <h5><b>My average is</b> {{ $avg }}</h5>
             </center>
             @endif
             <hr>
